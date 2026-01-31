@@ -1,0 +1,54 @@
+schema: spec-driven
+
+context: |
+  ## Domain / حوزه
+  Healthcare TPA (Third Party Administrator) for Bank Melli Iran
+  سامانه TPA (مدیر شخص ثالث) حوزه سلامت برای بانک ملی ایران
+
+  ## Tech Stack / پشته فناوری
+  Laravel 12 + PHP 8.3, React 18 + TypeScript + Tailwind CSS 4, PostgreSQL 16, Redis 7, Docker
+
+  ## Client / کارفرما
+  Bank Melli (national bank) - insured persons are bank employees (200K personnel)
+  بانک ملی ایران (بانک دولتی) - بیمه‌شدگان پرسنل بانک هستند (۲۰۰ هزار نفر)
+
+  ## Scale / مقیاس
+  5M claims/year, 15K medical centers, 450 concurrent users
+  ۵ میلیون سند خسارت/سال، ۱۵ هزار مرکز درمانی، ۴۵۰ کاربر همزمان
+
+  ## Reference Systems / سامانه‌های مرجع
+  Refah (PHP/Yii - current Bank Melli system), Sinaps/Jafam (.NET - competitor)
+  رفاه (PHP/Yii - سیستم فعلی بانک ملی)، سیناپس/جفام (.NET - رقیب)
+
+  ## Language & UI / زبان و رابط کاربری
+  Persian/Farsi (RTL), Jalali calendar, Vazirmatn font
+  فارسی (راست‌چین)، تقویم شمسی، فونت وزیرمتن
+
+  ## Architecture / معماری
+  Laravel MVC (backend), Component-based SPA (frontend), monorepo with backend/ and frontend/ directories
+  Laravel MVC (بکند)، SPA مبتنی بر کامپوننت (فرانتاند)، مونوریپو با پوشه‌های backend/ و frontend/
+
+  ## Auth / احراز هویت
+  Laravel Sanctum (token-based API)
+  Laravel Sanctum (API توکنی)
+
+  ## State Management / مدیریت وضعیت
+  Zustand (client) + TanStack React Query v5 (server)
+  Zustand (کلاینت) + TanStack React Query v5 (سرور)
+
+  ## Rule Engine / موتور قوانین
+  ruler/ruler (PHP) for pricing logic
+  ruler/ruler (PHP) برای منطق قیمت‌گذاری
+
+rules:
+  proposal:
+    - Reference the PRD document and competitor analysis / ارجاع به سند PRD و تحلیل رقبا
+    - Focus on Bank Melli specific requirements / تمرکز بر نیازمندی‌های خاص بانک ملی
+  design:
+    - Follow Laravel conventions (Models, Controllers, Services, Migrations) / رعایت قراردادهای Laravel (مدل‌ها، کنترلرها، سرویس‌ها، مایگریشن‌ها)
+    - Include database schema with PostgreSQL-specific features / شامل اسکیمای دیتابیس با قابلیت‌های خاص PostgreSQL
+    - Include ruler/ruler rule engine integration design for pricing / شامل طراحی یکپارچه‌سازی موتور قوانین ruler/ruler برای قیمت‌گذاری
+  tasks:
+    - Each task should be independently testable / هر تسک باید به صورت مستقل قابل تست باشد
+    - Order tasks by dependency (database first, then models, then services, then API, then frontend) / ترتیب تسک‌ها بر اساس وابستگی (اول دیتابیس، بعد مدل‌ها، بعد سرویس‌ها، بعد API، بعد فرانتاند)
+    - Mark completed tasks with [x] and remaining with [ ] / تسک‌های انجام‌شده با [x] و باقی‌مانده با [ ] علامت بزنید

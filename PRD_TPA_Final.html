@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD جامع - سامانه TPA درمانی</title>
+    <style>
+        :root {
+            --primary: #1e3c72;
+            --secondary: #2a5298;
+            --accent: #667eea;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --light: #f8fafc;
+            --dark: #1e293b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tahoma', 'Vazir', sans-serif;
+            line-height: 1.8;
+            background: var(--light);
+            color: var(--dark);
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        header h1 { font-size: 2.8em; margin-bottom: 15px; position: relative; }
+        header .subtitle { font-size: 1.4em; opacity: 0.9; position: relative; }
+        header .version {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            display: inline-block;
+            position: relative;
+        }
+        header .scale-badge {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        header .scale-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        header .scale-item .number { font-size: 2em; font-weight: bold; }
+        header .scale-item .label { font-size: 0.9em; opacity: 0.9; }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+        nav a:hover { background: var(--accent); color: white; }
+
+        /* Sections */
+        section {
+            background: white;
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        section h2 {
+            color: var(--primary);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        section h2 .icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        h3 { color: var(--secondary); margin: 30px 0 15px; font-size: 1.3em; }
+        h4 { color: var(--dark); margin: 20px 0 10px; font-size: 1.1em; }
+        p { margin-bottom: 15px; color: #4a5568; }
+        ul, ol { margin: 15px 0 15px 25px; color: #4a5568; }
+        li { margin-bottom: 8px; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: right;
+            font-weight: 600;
+        }
+        td { padding: 12px 15px; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f7fafc; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        .card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        .card h4 { color: var(--primary); margin-top: 0; }
+        .card ul { margin: 10px 0 0 20px; font-size: 0.95em; }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-mvp { background: #dbeafe; color: #1e40af; }
+        .badge-phase2 { background: #fef3c7; color: #92400e; }
+        .badge-phase3 { background: #d1fae5; color: #065f46; }
+        .badge-critical { background: #fee2e2; color: #dc2626; }
+
+        /* Alert boxes */
+        .alert {
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .alert-info {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-right: 4px solid var(--accent);
+        }
+        .alert-warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-right: 4px solid var(--warning);
+        }
+        .alert-danger {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-right: 4px solid var(--danger);
+        }
+        .alert-success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-right: 4px solid var(--success);
+        }
+
+        /* Competitor comparison */
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .competitor-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .competitor-card .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .competitor-card .header h4 { color: white; margin: 0; font-size: 1.3em; }
+        .competitor-card .content { padding: 20px; }
+        .competitor-card .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Module cards */
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            border-right: 5px solid var(--accent);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        .module-card h4 {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .module-card .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .module-card .feature-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        /* Workflow */
+        .workflow {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        .workflow pre {
+            direction: ltr;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre;
+        }
+
+        /* Tech stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .tech-item {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        /* Priority colors */
+        .priority-high { color: var(--danger); font-weight: bold; }
+        .priority-medium { color: var(--warning); font-weight: bold; }
+        .priority-low { color: var(--success); font-weight: bold; }
+
+        /* Roadmap */
+        .roadmap-phase {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-right: 5px solid var(--accent);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        .roadmap-phase h4 { color: var(--primary); margin-bottom: 15px; }
+        .roadmap-phase.phase-1 { border-right-color: var(--success); }
+        .roadmap-phase.phase-2 { border-right-color: var(--warning); }
+        .roadmap-phase.phase-3 { border-right-color: var(--accent); }
+        .roadmap-phase.phase-4 { border-right-color: var(--secondary); }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        footer p { color: rgba(255,255,255,0.8); margin: 5px 0; }
+
+        /* Print styles */
+        @media print {
+            nav { display: none; }
+            section { break-inside: avoid; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8em; }
+            section { padding: 20px; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>سند نیازمندی‌های محصول (PRD)</h1>
+        <div class="subtitle">سامانه جامع TPA درمانی - مدیریت خدمات درمانی شخص ثالث</div>
+        <div class="version">نسخه 2.0 نهایی | دی ۱۴۰۴</div>
+        <div class="scale-badge">
+            <div class="scale-item">
+                <div class="number">200,000</div>
+                <div class="label">پرسنل (بیمه‌شده)</div>
+            </div>
+            <div class="scale-item">
+                <div class="number">5,000,000</div>
+                <div class="label">سند درمانی / سال</div>
+            </div>
+            <div class="scale-item">
+                <div class="number">15,000</div>
+                <div class="label">مرکز درمانی</div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">خلاصه اجرایی</a></li>
+            <li><a href="#competitors">تحلیل رقبا</a></li>
+            <li><a href="#scale">مقیاس</a></li>
+            <li><a href="#users">کاربران</a></li>
+            <li><a href="#modules">ماژول‌ها</a></li>
+            <li><a href="#entities">موجودیت‌ها</a></li>
+            <li><a href="#workflows">گردش کار</a></li>
+            <li><a href="#integrations">یکپارچه‌سازی</a></li>
+            <li><a href="#architecture">معماری</a></li>
+            <li><a href="#security">امنیت</a></li>
+            <li><a href="#roadmap">نقشه راه</a></li>
+            <li><a href="#risks">ریسک‌ها</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Section 1: Overview -->
+        <section id="overview">
+            <h2><span class="icon">📋</span> 1. خلاصه اجرایی</h2>
+
+            <div class="alert alert-info">
+                <strong>TPA (Third Party Administrator)</strong> یک پلتفرم جامع مدیریت خدمات درمانی است که به عنوان واسط بین سه راس مثلث سلامت عمل می‌کند: <strong>بیمه‌شده</strong>، <strong>سازمان بیمه‌گر</strong> و <strong>مراکز ارائه‌دهنده خدمات</strong>.
+            </div>
+
+            <h3>چشم‌انداز محصول</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>اتوماسیون کامل</h4>
+                    <p>ثبت و پردازش نسخ درمانی به صورت کاملاً خودکار از لحظه صدور تا پرداخت</p>
+                </div>
+                <div class="card">
+                    <h4>کنترل هوشمند</h4>
+                    <p>مدیریت تعهدات و سقف بیمه‌ای با Rules Engine انعطاف‌پذیر</p>
+                </div>
+                <div class="card">
+                    <h4>تشخیص تقلب</h4>
+                    <p>شناسایی و جلوگیری از سوءاستفاده با الگوریتم‌های هوشمند</p>
+                </div>
+                <div class="card">
+                    <h4>گزارش‌گیری جامع</h4>
+                    <p>داشبوردهای مدیریتی و گزارش‌ساز پویا برای تصمیم‌گیری</p>
+                </div>
+            </div>
+
+            <h3>ارزش پیشنهادی</h3>
+            <table>
+                <tr><th>ارزش</th><th>توضیح</th></tr>
+                <tr><td>کاهش 30-70% هزینه‌های عملیاتی</td><td>کاهش نیروی انسانی، فضای فیزیکی و شرکت‌های ارزیاب</td></tr>
+                <tr><td>پردازش لحظه‌ای</td><td>کاهش زمان پردازش نسخ از روزها به ثانیه</td></tr>
+                <tr><td>افزایش دقت</td><td>کاهش خطای انسانی در محاسبات به کمتر از 0.1%</td></tr>
+                <tr><td>شفافیت کامل</td><td>نمایش جزئیات محاسبات و کسورات به تفکیک خدمات</td></tr>
+            </table>
+        </section>
+
+        <!-- Section 2: Competitor Analysis -->
+        <section id="competitors">
+            <h2><span class="icon">📊</span> 2. تحلیل بازار و رقبا</h2>
+
+            <div class="competitor-grid">
+                <div class="competitor-card">
+                    <div class="header"><h4>رسا (Rasa TPA)</h4></div>
+                    <div class="content">
+                        <div class="stat"><span>بیمه‌شده تکمیلی</span><strong>422,000</strong></div>
+                        <div class="stat"><span>مرکز درمانی</span><strong>17,000</strong></div>
+                        <div class="stat"><span>پرونده کل</span><strong>16M</strong></div>
+                        <div class="stat"><span>پرونده روزانه</span><strong>200,000</strong></div>
+                        <ul style="margin-top: 15px;">
+                            <li>BPMS & BRMS</li>
+                            <li>هوش مصنوعی تشخیص تقلب</li>
+                            <li>اپلیکیشن موبایل</li>
+                            <li>پشتیبانی 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="competitor-card">
+                    <div class="header"><h4>آویهنگ (Avihang)</h4></div>
+                    <div class="content">
+                        <div class="stat"><span>معماری</span><strong>Microservices</strong></div>
+                        <div class="stat"><span>تکنولوژی</span><strong>Java + Kubernetes</strong></div>
+                        <div class="stat"><span>دیتابیس</span><strong>Oracle + Cassandra</strong></div>
+                        <ul style="margin-top: 15px;">
+                            <li>مدیریت بیمه‌شدگان</li>
+                            <li>مدیریت قراردادها</li>
+                            <li>رسیدگی خودکار</li>
+                            <li>Self Care Portal</li>
+                            <li>Aviboard (داشبورد)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="competitor-card">
+                    <div class="header"><h4>سیناپس (Sinaps)</h4></div>
+                    <div class="content">
+                        <div class="stat"><span>Rules Engine</span><strong>هوشمند</strong></div>
+                        <div class="stat"><span>کاهش هزینه</span><strong>30-70%</strong></div>
+                        <div class="stat"><span>معماری</span><strong>Microservices</strong></div>
+                        <ul style="margin-top: 15px;">
+                            <li>اتصال به هاب بیمه مرکزی</li>
+                            <li>تطبیق اسناد الکترونیک/کاغذی</li>
+                            <li>پایگاه داده IRC, RVU, eRx</li>
+                            <li>White-label</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>مزیت رقابتی ما</h3>
+            <div class="alert alert-success">
+                <ul>
+                    <li><strong>یکپارچه با سامانه کمیسیون پزشکی موجود</strong> - کاهش هزینه توسعه</li>
+                    <li><strong>TypeScript End-to-End</strong> - کیفیت کد بالا و نگهداری آسان</li>
+                    <li><strong>معماری مدرن NestJS + Vue 3</strong> - توسعه سریع و مقیاس‌پذیر</li>
+                    <li><strong>هزینه نیروی انسانی پایین‌تر</strong> - یک تیم برای هر دو سامانه</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 3: Scale -->
+        <section id="scale">
+            <h2><span class="icon">📈</span> 3. مقیاس و ظرفیت سیستم</h2>
+
+            <div class="alert alert-danger">
+                <h4>هشدار: این یک سیستم Enterprise-Scale است!</h4>
+                <p>با این اعداد، نیاز به معماری توزیع‌شده با High Availability دارید.</p>
+            </div>
+
+            <h3>تحلیل بار سیستم</h3>
+            <table>
+                <thead>
+                    <tr><th>معیار</th><th>محاسبه</th><th>مقدار</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>اسناد روزانه</td><td>5M / 300 روز</td><td class="priority-high">~16,700 سند/روز</td></tr>
+                    <tr><td>اسناد در ساعت</td><td>16,700 / 8</td><td class="priority-high">~2,100 سند/ساعت</td></tr>
+                    <tr><td>Peak (× 3)</td><td>(2,100/60) × 3</td><td class="priority-high">~105 سند/دقیقه</td></tr>
+                    <tr><td>سند/بیمه‌شده/سال</td><td>5M / 200K</td><td>25 سند</td></tr>
+                    <tr><td>سند/مرکز/سال</td><td>5M / 15K</td><td>~333 سند</td></tr>
+                    <tr><td>کاربران همزمان</td><td>15K × 3%</td><td class="priority-high">~450 نفر</td></tr>
+                    <tr><td>حجم DB (5 سال)</td><td>25M × 3KB</td><td>~75 GB</td></tr>
+                    <tr><td>با فایل‌ها</td><td>اسناد اسکن</td><td class="priority-high">500GB - 1TB</td></tr>
+                </tbody>
+            </table>
+
+            <h3>نیازمندی‌های عملکردی</h3>
+            <table>
+                <tr><th>ویژگی</th><th>هدف</th></tr>
+                <tr><td>Response Time</td><td>&lt; 500ms (P95), &lt; 2s (P99)</td></tr>
+                <tr><td>Throughput</td><td>150+ تراکنش/ثانیه</td></tr>
+                <tr><td>Concurrent Users</td><td>500+ کاربر همزمان</td></tr>
+                <tr><td>Availability</td><td>99.9% (8.7h downtime/year)</td></tr>
+                <tr><td>Data Retention</td><td>10+ سال</td></tr>
+            </table>
+        </section>
+
+        <!-- Section 4: Users -->
+        <section id="users">
+            <h2><span class="icon">👥</span> 4. کاربران و نقش‌ها</h2>
+
+            <table>
+                <thead>
+                    <tr><th>نقش</th><th>شرح</th><th>دسترسی‌های کلیدی</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>مدیر سیستم</strong></td>
+                        <td>مدیریت کلی سامانه</td>
+                        <td>کاربران، تنظیمات، لاگ‌ها</td>
+                    </tr>
+                    <tr>
+                        <td><strong>کارشناس بیمه</strong></td>
+                        <td>مدیریت بیمه‌شدگان</td>
+                        <td>ثبت/ویرایش، تعهدات، معرفی‌نامه</td>
+                    </tr>
+                    <tr>
+                        <td><strong>اپراتور نسخه</strong></td>
+                        <td>ثبت نسخ</td>
+                        <td>استعلام، ثبت نسخه، محاسبه</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ارزیاب خسارت</strong></td>
+                        <td>ارزیابی اسناد</td>
+                        <td>تایید/رد، کسورات، ارجاع</td>
+                    </tr>
+                    <tr>
+                        <td><strong>کارشناس مالی</strong></td>
+                        <td>تسویه حساب</td>
+                        <td>صورتحساب، چک، گزارش مالی</td>
+                    </tr>
+                    <tr>
+                        <td><strong>مرکز درمانی</strong></td>
+                        <td>ارائه خدمات</td>
+                        <td>پذیرش، ثبت خدمات، تسویه</td>
+                    </tr>
+                    <tr>
+                        <td><strong>بیمه‌گذار</strong></td>
+                        <td>سازمان متقاضی</td>
+                        <td>قرارداد، حذف/اضافه، گزارش</td>
+                    </tr>
+                    <tr>
+                        <td><strong>بیمه‌شده</strong></td>
+                        <td>دریافت‌کننده خدمات</td>
+                        <td>سوابق، مانده، ارسال مدارک</td>
+                    </tr>
+                    <tr>
+                        <td><strong>مدیر ارشد</strong></td>
+                        <td>نظارت</td>
+                        <td>داشبورد، گزارش تحلیلی (فقط خواندن)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 5: Modules -->
+        <section id="modules">
+            <h2><span class="icon">📦</span> 5. ماژول‌های سیستم</h2>
+
+            <div class="module-card">
+                <h4><span class="badge badge-mvp">MVP</span> ماژول 1: مدیریت بیمه‌شدگان</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>ثبت بیمه‌شده</strong>
+                        <p>انفرادی/گروهی، استعلام ثبت احوال</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>افراد تبعی</strong>
+                        <p>همسر، فرزند، والدین - کنترل شرایط</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>تاریخچه</strong>
+                        <p>سوابق قراردادها، تغییرات</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>استثنائات</strong>
+                        <p>بیماری خاص، محرومیت، تخفیف</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-mvp">MVP</span> ماژول 2: مدیریت قراردادها</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>قرارداد</strong>
+                        <p>گروهی/انفرادی، دوره اعتبار</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>طرح و پوشش</strong>
+                        <p>تعهدات، سقف، فرانشیز</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>الحاقیه</strong>
+                        <p>افزودن/حذف، تمدید، فسخ</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>حق بیمه</strong>
+                        <p>محاسبه خودکار، ضرایب</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-mvp">MVP</span> ماژول 3: بانک دارو و خدمات</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>بانک دارویی</strong>
+                        <p>IRC، ژنریک/برند، قیمت روزانه</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>خدمات پزشکی</strong>
+                        <p>RVU، تعرفه، کدهای تعدیلی</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>کنترل‌ها</strong>
+                        <p>دوزاژ، سقف، سن/جنس</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>تداخلات</strong>
+                        <p>دارو-دارو، دارو-بیماری</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-mvp">MVP</span> ماژول 4: ثبت و پردازش نسخ</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>استعلام</strong>
+                        <p>اعتبار، مانده سقف، دوره انتظار</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>نسخه سرپایی</strong>
+                        <p>دارو، پاراکلینیک، ویزیت</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>نسخه بستری</strong>
+                        <p>بیمارستان، جراحی، هتلینگ</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>معرفی‌نامه</strong>
+                        <p>الکترونیک، QR Code</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-phase2">فاز 2</span> ماژول 5: موتور قوانین قیمت‌گذاری</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>قوانین پایه</strong>
+                        <p>درصد پوشش، سقف، فرانشیز</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>شرایط پیشرفته</strong>
+                        <p>سن، جنس، بیماری، گروه دارو</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>تخفیفات</strong>
+                        <p>مرکز، گروهی، فردی</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>محدودیت‌ها</strong>
+                        <p>دوره انتظار، حداکثر تعداد</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-phase2">فاز 2</span> ماژول 6: مدیریت مراکز درمانی</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>انواع مراکز</strong>
+                        <p>داروخانه، مطب، بیمارستان، آزمایشگاه</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>قرارداد مرکز</strong>
+                        <p>تعرفه، تخفیف، نحوه تسویه</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>پزشکان</strong>
+                        <p>اطلاعات، تخصص، نظام پزشکی</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>موقعیت</strong>
+                        <p>آدرس، نقشه، محدوده خدمات</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-phase2">فاز 2</span> ماژول 7: رسیدگی و ارزیابی</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>پذیرش</strong>
+                        <p>آنلاین، متفرقه، فیزیکی</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>ارزیابی خودکار</strong>
+                        <p>اعتبارسنجی، تطبیق، محاسبه</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>ارزیابی دستی</strong>
+                        <p>کارتابل، نظرات، ارجاع</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>تایید/رد</strong>
+                        <p>کامل، جزئی، با کسورات</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-phase2">فاز 2</span> ماژول 8: مالی و تسویه</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>صورتحساب</strong>
+                        <p>تجمیع دوره‌ای، مرکز/بیمه‌شده</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>تسویه مراکز</strong>
+                        <p>مغایرت، حواله، بانک</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>پرداخت</strong>
+                        <p>واریز، چک، کارت</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>گزارش مالی</strong>
+                        <p>گردش، سود/زیان، ضریب خسارت</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-phase3">فاز 3</span> ماژول 9: تشخیص تقلب</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>کنترل خودکار</strong>
+                        <p>تکرار نسخه، هزینه غیرمتعارف</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>هوش مصنوعی</strong>
+                        <p>الگوهای مشکوک، رفتار غیرعادی</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>هشدارها</strong>
+                        <p>لحظه‌ای، گزارش، مسدودسازی</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-mvp">MVP</span> ماژول 10: داشبورد و گزارشات</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>داشبورد</strong>
+                        <p>KPI، نمودار، مقایسه</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>گزارش عملیاتی</strong>
+                        <p>لیست نسخ، کارتابل</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>گزارش تحلیلی</strong>
+                        <p>هزینه، بیماری، پیش‌بینی</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>گزارش‌ساز</strong>
+                        <p>پویا، Excel/PDF</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <h4><span class="badge badge-phase3">فاز 3</span> ماژول 11: اپلیکیشن موبایل</h4>
+                <div class="features">
+                    <div class="feature-item">
+                        <strong>بیمه‌شدگان</strong>
+                        <p>سوابق، مانده، ارسال مدارک</p>
+                    </div>
+                    <div class="feature-item">
+                        <strong>مراکز درمانی</strong>
+                        <p>پذیرش، نسخ الکترونیک</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Entities -->
+        <section id="entities">
+            <h2><span class="icon">🗄️</span> 6. موجودیت‌های داده (بر اساس کد نمونه Refah)</h2>
+
+            <h3>بیمه‌شدگان و قراردادها</h3>
+            <table>
+                <tr><th>موجودیت</th><th>شرح</th></tr>
+                <tr><td>Employee</td><td>بیمه‌شده اصلی</td></tr>
+                <tr><td>EmployeeIllness</td><td>بیماری‌های بیمه‌شده</td></tr>
+                <tr><td>EmployeeInfraction</td><td>تخلفات و محرومیت‌ها</td></tr>
+                <tr><td>Insurance</td><td>اطلاعات بیمه‌ای</td></tr>
+                <tr><td>InsuranceRules</td><td>قوانین بیمه‌ای</td></tr>
+            </table>
+
+            <h3>دارو و خدمات</h3>
+            <table>
+                <tr><th>موجودیت</th><th>شرح</th></tr>
+                <tr><td>Item</td><td>قلم دارو/خدمت</td></tr>
+                <tr><td>ItemCategory / SubCategory / Group</td><td>دسته‌بندی‌ها</td></tr>
+                <tr><td>ItemPrice</td><td>قیمت</td></tr>
+                <tr><td>DrugInteraction</td><td>تداخلات دارویی</td></tr>
+            </table>
+
+            <h3>نسخ و صورتحساب</h3>
+            <table>
+                <tr><th>موجودیت</th><th>شرح</th></tr>
+                <tr><td>Prescription</td><td>نسخه</td></tr>
+                <tr><td>Invoice / InvoiceItem</td><td>صورتحساب و اقلام</td></tr>
+                <tr><td>InvoiceAggregation</td><td>تجمیع صورتحساب</td></tr>
+            </table>
+
+            <h3>قیمت‌گذاری پیشرفته</h3>
+            <table>
+                <tr><th>موجودیت</th><th>شرح</th></tr>
+                <tr><td>ItemPriceConditions</td><td>شرایط قیمت‌گذاری پایه</td></tr>
+                <tr><td>ItemPriceConditionsAdv</td><td>شرایط پیشرفته</td></tr>
+                <tr><td>ItemPriceConditionsAdv2*</td><td>شرط بر اساس CEC/Emp/Illness/Item/Category/Group</td></tr>
+                <tr><td>ConditionGroup</td><td>گروه شرایط</td></tr>
+            </table>
+        </section>
+
+        <!-- Section 7: Workflows -->
+        <section id="workflows">
+            <h2><span class="icon">🔄</span> 7. گردش کارهای اصلی</h2>
+
+            <h3>گردش کار ثبت نسخه آنلاین</h3>
+            <div class="workflow">
+                <pre>
+[شروع] → [استعلام کد ملی] → [بررسی اعتبار]
+                                    │
+                        ┌───────────┴───────────┐
+                        ↓                       ↓
+                    [معتبر]                 [نامعتبر → خطا]
+                        ↓
+            [نمایش مانده سقف تعهدات]
+                        ↓
+            [ثبت اقلام نسخه]
+                        ↓
+            [محاسبه خودکار سهم بیمه]
+                        ↓
+            [کنترل سقف تعهدات]
+                        │
+            ┌───────────┴───────────┐
+            ↓                       ↓
+        [در سقف]              [مازاد → محاسبه مازاد]
+            │                       │
+            └───────────┬───────────┘
+                        ↓
+            [تایید توسط اپراتور]
+                        ↓
+            [ذخیره نسخه + SMS]
+                        ↓
+            [صدور رسید]
+                        ↓
+                    [پایان]
+                </pre>
+            </div>
+
+            <h3>گردش کار تسویه با مرکز درمانی</h3>
+            <div class="workflow">
+                <pre>
+[پایان دوره] → [تجمیع صورتحساب‌ها] → [ارسال به مرکز]
+                                            ↓
+                                    [بررسی مغایرت]
+                                            │
+                            ┌───────────────┴───────────────┐
+                            ↓                               ↓
+                    [بدون مغایرت]                   [با مغایرت → رفع]
+                            │                               │
+                            └───────────────┬───────────────┘
+                                            ↓
+                                    [تایید کارشناس مالی]
+                                            ↓
+                                    [صدور حواله/چک]
+                                            ↓
+                                    [ارسال به بانک]
+                                            ↓
+                                        [پایان]
+                </pre>
+            </div>
+        </section>
+
+        <!-- Section 8: Integrations -->
+        <section id="integrations">
+            <h2><span class="icon">🔗</span> 8. یکپارچه‌سازی‌ها</h2>
+
+            <h3>سرویس‌های دولتی و ملی</h3>
+            <table>
+                <thead>
+                    <tr><th>سیستم</th><th>پروتکل</th><th>کاربرد</th><th>اولویت</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>ثبت احوال</td><td>REST</td><td>استعلام کد ملی</td><td class="priority-high">بالا</td></tr>
+                    <tr><td>نظام پزشکی</td><td>REST</td><td>استعلام پزشکان</td><td class="priority-high">بالا</td></tr>
+                    <tr><td>IRC (TTAC)</td><td>REST/SOAP</td><td>قیمت دارو</td><td class="priority-high">بالا</td></tr>
+                    <tr><td>هاب بیمه مرکزی</td><td>REST</td><td>بیمه پایه</td><td class="priority-medium">متوسط</td></tr>
+                    <tr><td>دیتاس</td><td>REST</td><td>بیمه‌شدگان کشور</td><td class="priority-medium">متوسط</td></tr>
+                    <tr><td>نسخ الکترونیک</td><td>REST</td><td>نسخ بیمه پایه</td><td class="priority-high">بالا</td></tr>
+                    <tr><td>سپاس</td><td>REST</td><td>پرونده سلامت</td><td class="priority-medium">متوسط</td></tr>
+                    <tr><td>سنهاب</td><td>REST</td><td>ارسال به بیمه مرکزی</td><td class="priority-low">پایین</td></tr>
+                </tbody>
+            </table>
+
+            <h3>سرویس‌های دیگر</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>بانکی و مالی</h4>
+                    <ul>
+                        <li>درگاه پرداخت</li>
+                        <li>استعلام شبا</li>
+                        <li>واریز گروهی</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>ارتباطی</h4>
+                    <ul>
+                        <li>SMS</li>
+                        <li>Email (SMTP)</li>
+                        <li>Push Notification</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>داخلی</h4>
+                    <ul>
+                        <li>کمیسیون پزشکی</li>
+                        <li>HIS بیمارستان‌ها</li>
+                        <li>نرم‌افزار داروخانه</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: Architecture -->
+        <section id="architecture">
+            <h2><span class="icon">🏗️</span> 9. معماری فنی</h2>
+
+            <h3>استک تکنولوژی</h3>
+            <div class="tech-stack">
+                <span class="tech-item">Vue.js 3</span>
+                <span class="tech-item">TypeScript</span>
+                <span class="tech-item">PrimeVue 4</span>
+                <span class="tech-item">Pinia</span>
+                <span class="tech-item">NestJS</span>
+                <span class="tech-item">TypeORM</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">Redis</span>
+                <span class="tech-item">BullMQ</span>
+                <span class="tech-item">Docker</span>
+                <span class="tech-item">Nginx</span>
+            </div>
+
+            <h3>معماری سطح بالا</h3>
+            <div class="workflow">
+                <pre>
+                              ┌─────────────────┐
+                              │      CDN        │
+                              └────────┬────────┘
+                                       │
+                              ┌────────▼────────┐
+                              │  Load Balancer  │
+                              └────────┬────────┘
+                                       │
+         ┌─────────────────────────────┼─────────────────────────────┐
+         │                             │                             │
+┌────────▼────────┐          ┌────────▼────────┐          ┌────────▼────────┐
+│  API Server 1   │          │  API Server 2   │          │  API Server N   │
+│    (NestJS)     │          │    (NestJS)     │          │    (NestJS)     │
+└────────┬────────┘          └────────┬────────┘          └────────┬────────┘
+         │                             │                             │
+         └─────────────────────────────┼─────────────────────────────┘
+                                       │
+                ┌──────────────────────┼──────────────────────┐
+                │                      │                      │
+       ┌────────▼────────┐    ┌───────▼───────┐    ┌────────▼────────┐
+       │     Redis       │    │    BullMQ     │    │  Object Storage │
+       │ (Cache+Session) │    │   (Queues)    │    │   (MinIO/S3)    │
+       └─────────────────┘    └───────────────┘    └─────────────────┘
+                │
+     ┌──────────┼──────────┐
+     │          │          │
+┌────▼────┐ ┌───▼───┐ ┌───▼───┐
+│ Primary │ │Replica│ │Replica│
+│   PG    │ │  PG   │ │  PG   │
+└─────────┘ └───────┘ └───────┘
+                </pre>
+            </div>
+
+            <h3>تخمین منابع سخت‌افزاری</h3>
+            <table>
+                <thead>
+                    <tr><th>سرور</th><th>تعداد</th><th>مشخصات</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>API Servers</td><td>3+</td><td>8 Core, 16GB RAM, 100GB SSD</td></tr>
+                    <tr><td>DB Primary</td><td>1</td><td>16 Core, 64GB RAM, 1TB NVMe</td></tr>
+                    <tr><td>DB Replicas</td><td>2+</td><td>8 Core, 32GB RAM, 1TB SSD</td></tr>
+                    <tr><td>Redis Cluster</td><td>3</td><td>4 Core, 16GB RAM, 50GB SSD</td></tr>
+                    <tr><td>Message Queue</td><td>2</td><td>4 Core, 8GB RAM, 100GB SSD</td></tr>
+                    <tr><td>Load Balancer</td><td>2</td><td>2 Core, 4GB RAM</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 10: Security -->
+        <section id="security">
+            <h2><span class="icon">🔒</span> 10. امنیت و انطباق</h2>
+
+            <h3>استانداردها</h3>
+            <ul>
+                <li><strong>ISO 27001:</strong> مدیریت امنیت اطلاعات</li>
+                <li><strong>OWASP Top 10:</strong> جلوگیری از آسیب‌پذیری‌های رایج</li>
+                <li><strong>قانون حفاظت داده:</strong> انطباق با مقررات ایران</li>
+            </ul>
+
+            <h3>الزامات امنیتی</h3>
+            <table>
+                <thead>
+                    <tr><th>حوزه</th><th>پیاده‌سازی</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>احراز هویت</td><td>JWT + Refresh Token, MFA</td></tr>
+                    <tr><td>مجوزدهی</td><td>RBAC (NestJS Guards)</td></tr>
+                    <tr><td>رمزنگاری</td><td>AES-256, bcrypt</td></tr>
+                    <tr><td>انتقال</td><td>TLS 1.3, HTTPS</td></tr>
+                    <tr><td>لاگ‌گیری</td><td>Audit Trail کامل</td></tr>
+                    <tr><td>ورودی</td><td>class-validator, DTOs</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 11: Roadmap -->
+        <section id="roadmap">
+            <h2><span class="icon">🗺️</span> 11. نقشه راه</h2>
+
+            <div class="roadmap-phase phase-1">
+                <h4><span class="badge badge-mvp">فاز 1</span> MVP</h4>
+                <ul>
+                    <li>زیرساخت و DevOps پایه</li>
+                    <li>احراز هویت و RBAC</li>
+                    <li>مدیریت بیمه‌شدگان و تبعی</li>
+                    <li>بانک دارو و خدمات پایه</li>
+                    <li>ثبت نسخه ساده</li>
+                    <li>داشبورد و گزارش‌های اولیه</li>
+                </ul>
+            </div>
+
+            <div class="roadmap-phase phase-2">
+                <h4><span class="badge badge-phase2">فاز 2</span> توسعه</h4>
+                <ul>
+                    <li>موتور قوانین قیمت‌گذاری</li>
+                    <li>کنترل سقف به تفکیک خدمت</li>
+                    <li>مدیریت مراکز درمانی</li>
+                    <li>تشخیص تداخل دارویی</li>
+                    <li>یکپارچه‌سازی IRC و نظام پزشکی</li>
+                </ul>
+            </div>
+
+            <div class="roadmap-phase phase-3">
+                <h4><span class="badge badge-phase2">فاز 3</span> کامل‌سازی</h4>
+                <ul>
+                    <li>ماژول مالی و تسویه</li>
+                    <li>رسیدگی و ارزیابی</li>
+                    <li>اسناد متفرقه</li>
+                    <li>یکپارچه‌سازی نسخ الکترونیک</li>
+                    <li>گزارش‌ساز پویا</li>
+                </ul>
+            </div>
+
+            <div class="roadmap-phase phase-4">
+                <h4><span class="badge badge-phase3">فاز 4</span> بهینه‌سازی</h4>
+                <ul>
+                    <li>اپلیکیشن موبایل</li>
+                    <li>هوش مصنوعی تشخیص تقلب</li>
+                    <li>داشبورد BI پیشرفته</li>
+                    <li>یکپارچه با کمیسیون پزشکی</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 12: Risks -->
+        <section id="risks">
+            <h2><span class="icon">⚠️</span> 12. ریسک‌ها</h2>
+
+            <table>
+                <thead>
+                    <tr><th>ریسک</th><th>احتمال</th><th>تاثیر</th><th>راهکار</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>پیچیدگی قوانین قیمت‌گذاری</td>
+                        <td class="priority-high">بالا</td>
+                        <td class="priority-high">بالا</td>
+                        <td>Rules Engine انعطاف‌پذیر از ابتدا</td>
+                    </tr>
+                    <tr>
+                        <td>یکپارچه‌سازی legacy</td>
+                        <td class="priority-high">بالا</td>
+                        <td class="priority-medium">متوسط</td>
+                        <td>Adapter Pattern, تست integration</td>
+                    </tr>
+                    <tr>
+                        <td>حجم بالای داده</td>
+                        <td class="priority-medium">متوسط</td>
+                        <td class="priority-high">بالا</td>
+                        <td>Partitioning, Indexing, Caching</td>
+                    </tr>
+                    <tr>
+                        <td>تغییرات مقررات</td>
+                        <td class="priority-high">بالا</td>
+                        <td class="priority-medium">متوسط</td>
+                        <td>معماری ماژولار، پیکربندی‌پذیر</td>
+                    </tr>
+                    <tr>
+                        <td>تقلب و سوءاستفاده</td>
+                        <td class="priority-high">بالا</td>
+                        <td class="priority-high">بالا</td>
+                        <td>کنترل چندلایه، AI</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer>
+        <p><strong>سند نیازمندی‌های محصول - سامانه جامع TPA درمانی</strong></p>
+        <p>نسخه 2.0 نهایی | دی ۱۴۰۴</p>
+        <p style="margin-top: 20px; font-size: 0.9em;">
+            منابع: تحلیل کد Refah | بروشور رسا، آویهنگ، سیناپس | نیازمندی‌های بانک ملی
+        </p>
+    </footer>
+</body>
+</html>
