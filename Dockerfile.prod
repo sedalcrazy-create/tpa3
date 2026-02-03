@@ -1,51 +1,53 @@
-FROM php:8.3-apache
-
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Install system dependencies for PHP extensions
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
-    libicu-dev \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    unzip \
-    curl \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_pgsql pgsql intl gd zip bcmath \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+FROM php:8.3-cli-alpine
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set Apache document root to Laravel public directory
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Install dev libraries needed for PHP extensions
+RUN apk add --no-cache postgresql-dev icu-dev linux-headers \
+    libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev curl
 
-# Allow .htaccess overrides
-RUN sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+# Install build tools
+RUN apk add --no-cache autoconf g++ make
+
+# Configure and build PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_pgsql pgsql intl gd zip bcmath opcache
+
+# Build Redis extension
+RUN pecl install redis && docker-php-ext-enable redis
+
+# Clean up build deps (keep runtime libs)
+RUN apk del autoconf g++ make
+
+# PHP production optimizations
+RUN { \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.memory_consumption=128'; \
+    echo 'opcache.interned_strings_buffer=8'; \
+    echo 'opcache.max_accelerated_files=10000'; \
+    echo 'opcache.validate_timestamps=0'; \
+    echo 'opcache.save_comments=1'; \
+    echo 'opcache.fast_shutdown=1'; \
+    } > /usr/local/etc/php/conf.d/opcache.ini
+
+WORKDIR /var/www/html
 
 # Copy application code
 COPY backend/ /var/www/html/
-
-WORKDIR /var/www/html
 
 # Install composer dependencies (production)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs storage/app/public bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-# Cache Laravel config, routes, views
+# Clear and cache Laravel
 RUN php artisan config:clear \
     && php artisan route:clear \
     && php artisan view:clear
 
-EXPOSE 80
+EXPOSE 8000
+
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
