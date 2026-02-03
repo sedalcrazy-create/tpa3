@@ -1,0 +1,44 @@
+FROM serversideup/php:8.3-fpm-apache
+
+# Switch to root for installing extensions
+USER root
+
+# Install system dependencies for PHP extensions
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    libicu-dev \
+    libpng-dev \
+    libjpeg-turbo8-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_pgsql pgsql intl gd zip bcmath \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Apache document root
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+# Copy application code
+COPY backend/ /var/www/html/
+
+WORKDIR /var/www/html
+
+# Install composer dependencies (production)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Cache Laravel config, routes, views
+RUN php artisan config:clear \
+    && php artisan route:clear \
+    && php artisan view:clear
+
+# Switch back to www-data
+USER www-data
+
+EXPOSE 8080
