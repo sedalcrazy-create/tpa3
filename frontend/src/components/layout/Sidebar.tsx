@@ -83,11 +83,11 @@ export default function Sidebar() {
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <img src="/logo.svg" alt="TPA3" className="h-8 w-8" />
+            <img src="/logo.jpg" alt="TPA3" className="h-8 w-8 rounded" />
             <span className="font-bold text-white text-sm">TPA3</span>
           </div>
         )}
-        {collapsed && <img src="/logo.svg" alt="TPA3" className="h-8 w-8 mx-auto" />}
+        {collapsed && <img src="/logo.jpg" alt="TPA3" className="h-8 w-8 mx-auto rounded" />}
         <button onClick={closeMobile} className="lg:hidden text-gray-400 hover:text-white">
           <XMarkIcon className="w-5 h-5" />
         </button>

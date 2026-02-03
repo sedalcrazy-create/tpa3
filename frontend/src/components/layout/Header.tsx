@@ -39,7 +39,7 @@ export default function Header() {
           <Bars3Icon className="w-5 h-5" />
         </button>
         <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="TPA3" className="h-8 w-8" />
+          <img src="/logo.jpg" alt="TPA3" className="h-8 w-8 rounded" />
           <span className="font-bold text-primary hidden sm:block">سیستم بیمه درمان</span>
         </div>
       </div>
